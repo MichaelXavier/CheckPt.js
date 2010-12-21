@@ -2,6 +2,7 @@
   "name"         : "CheckPt",
   "version"      : "0.0.1a",
   "dependencies" : {
+    "backbone"   : "0.3.3",
     "underscore" : "0.2.2",
     "optimist"   : "1.2",
     "haml"       : "0.2.5",
