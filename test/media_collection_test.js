@@ -6,18 +6,9 @@ function buildCollection(cb) {
   cb();
 }
 
-function deleteCollection(cb) {
-  this.collection = null;
-  cb();
-}
-
-//TODO: dry up setup
 module.exports = {
   'constructor': testCase({
-    setUp: function(cb) {
-      this.collection = new MediaCollection({'name': "Curb Your Enthusiasm"});
-      cb();
-    },
+    setUp: buildCollection,
 
     'sets name': function(t) {
       t.expect(1);
@@ -29,18 +20,10 @@ module.exports = {
       t.expect(1);
       t.equals(0, this.collection.get('items').length);
       t.done();
-    },
-
-    tearDown: function(cb) {
-      this.collection = null;
-      cb();
     }
   }),
   'progress': testCase({
-    setUp: function(cb) {
-      this.collection = new MediaCollection({'name': "Curb Your Enthusiasm"});
-      cb();
-    },
+    setUp: buildCollection,
 
     'is 0.0 on empty list': function(t) {
       t.expect(1);
@@ -56,19 +39,11 @@ module.exports = {
       this.collection.push({completed:true});
       t.equals(2/3, this.collection.progress());
       t.done();
-    },
-
-    tearDown: function(cb) {
-      this.collection = null;
-      cb();
     }
   }),
 
   'remaining_list': testCase({
-    setUp: function(cb) {
-      this.collection = new MediaCollection({'name': "Curb Your Enthusiasm"});
-      cb();
-    },
+    setUp: buildCollection,
 
     'returns empty list on empty collection': function(t) {
       t.expect(1);
@@ -86,19 +61,12 @@ module.exports = {
       t.equals(1, remaining.length);
       t.equals(false, remaining[0].completed);
       t.done();
-    },
-
-    tearDown: function(cb) {
-      this.collection = null;
-      cb();
     }
   }),
 
   'completed_list': testCase({
-    setUp: function(cb) {
-      this.collection = new MediaCollection({'name': "Curb Your Enthusiasm"});
-      cb();
-    },
+    setUp: buildCollection,
+
     'returns empty list on empty collection': function(t) {
       t.expect(1);
       t.equals(0, this.collection.completed_list().length);

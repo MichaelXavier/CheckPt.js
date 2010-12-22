@@ -1,11 +1,14 @@
 var testCase  = require('nodeunit').testCase,
     MediaItem = require('../lib/media_item');
 
+function buildItem(cb) {
+  this.item = new MediaItem({'name': 'Episode 1'});
+  cb();
+}
+
 module.exports = {
   'constructor': testCase({
-    setUp: function(cb) {
-      this.item = new MediaItem({'name': 'Episode 1'});
-    },
+    setUp: buildItem,
 
     'sets name': function(t) {
       t.expect(1);
@@ -25,10 +28,7 @@ module.exports = {
   }),
 
   'complete': testCase({
-    setUp: function(cb) {
-      this.item = new MediaItem({'name': 'Episode 1'});
-      cb();
-    },
+    setUp: buildItem,
 
     'marks as complete': function(t) {
       t.expect(1);
