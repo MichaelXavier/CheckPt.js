@@ -29,7 +29,8 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', function(req, res){
-  res.render('index');
+  //FIXME: dummy for testing
+  res.render('index', {locals: {media_collections: [{name: 'MC NAME'}]}});
 });
 
 // REST
