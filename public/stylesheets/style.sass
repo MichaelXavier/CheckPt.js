@@ -1,13 +1,22 @@
-!bg = #323337
-!highlight = #62626B
+!bg         = #323337
+!highlight  = #62626B
+!medium     = #1E1F21
+!medium2    = #35373B
+!light      = #575B61
+!dark       = #101112
+!text       = #FFFFFF
+!incomplete  = #2D581A
+!incomplete2 = #3B7322
+!complete    = #1A4C58
+!complete2   = #226373
 
 body
   :font 14px/1.5 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif
-  :color #FFFFFF
+  :color !text
   :background-color !bg
 
 #header
-  :background-color #1E1F21
+  :background-color !medium
   :margin 0
   :padding 25px
   :border-bottom 1px solid !highlight
@@ -24,3 +33,68 @@ body
 
 #content
   :padding 50px
+
+.widget
+  =box-shadow 5px 5px 6px !medium
+
+.media_collection
+  :background-color !light
+  =border-radius 5px
+  :padding 0
+  :height 50px
+  :width 650px
+
++collection_bar
+ :font-family "lucida grande", sans-serif
+ :font-size 12px
+ :font-weight bold
+ :line-height 1
+ :text-align center
+ :text-shadow 0 1px 0px #eee
+ :height 50px
+ :vertical-align baseline
+
+.collection_title
+ :background !medium
+ :background -moz-linear-gradient(0% 100% 90deg, !medium, !medium2)
+ :background -webkit-gradient(linear, 0% 0%, 0% 100%, from(!medium2), to(!medium))
+ :color !text
+ :width 150px
+ :border 1px solid !dark
+ :float left
+ =border-radius 5px
+ +collection_bar
+
+.ui-progressbar
+  :display inline
+
+.ui-progressbar-value
+  :border-top-right-radius 5px
+  :border-bottom-right-radius 5px
+  :-webkit-border-top-right-radius 5px
+  :-webkit-border-bottom-right-radius 5px
+  :-moz-border-radius-topright 5px
+  :-moz-border-radius-bottomright 5px
+ +collection_bar
+
+.progress_container
+  :margin-left 150px
+  :width 500px
+  :height 100%
+  :vertical-align baseline
+
+.collection_progress
+  :display inline
+  :width 100%
+
+.collection_progress_incomplete
+  //:background-color !incomplete
+  :background !incomplete
+  :background -moz-linear-gradient(0% 100% 90deg, !incomplete, !incomplete2)
+  :background -webkit-gradient(linear, 0% 0%, 0% 100%, from(!incomplete2), to(!complete))
+
+.collection_progress_complete
+  :background-color !complete
+
+.clear
+  :clear both
