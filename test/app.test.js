@@ -1,10 +1,5 @@
-
-// Run $ expresso
-
-/**
- * Module dependencies.
- */
-
+// Disabled until project switched to expresso
+/*
 var app = require('../app');
 
 
@@ -18,3 +13,4 @@ module.exports = {
       });
   }
 };
+*/
