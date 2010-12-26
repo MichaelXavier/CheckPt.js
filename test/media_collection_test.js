@@ -1,87 +1,66 @@
-var testCase        = require('nodeunit').testCase,
+var assert          = require('assert'),
     MediaCollection = require('../lib/media_collection');
 
-function buildCollection(cb) {
+function buildCollection() {
   this.collection = new MediaCollection({'name': "Curb Your Enthusiasm"});
-  cb();
 }
 
 module.exports = {
-  'constructor': testCase({
-    setUp: buildCollection,
+  'constructor - sets name': function() {
+    buildCollection.apply(this);
+    assert.eql("Curb Your Enthusiasm", this.collection.get('name'));
+  },
 
-    'sets name': function(t) {
-      t.expect(1);
-      t.equals("Curb Your Enthusiasm", this.collection.get('name'));
-      t.done();
-    },
+  'constructor - defaults empty items': function() {
+    buildCollection.apply(this);
+    assert.eql(0, this.collection.get('items').length);
+  },
 
-    'defaults empty items': function(t) {
-      t.expect(1);
-      t.equals(0, this.collection.get('items').length);
-      t.done();
-    }
-  }),
-  'progress': testCase({
-    setUp: buildCollection,
+  'progress - is 0.0 on empty list': function() {
+    buildCollection.apply(this);
+    assert.eql(0.0, this.collection.progress());
+  },
 
-    'is 0.0 on empty list': function(t) {
-      t.expect(1);
-      t.equals(0.0, this.collection.progress());
-      t.done();
-    },
+  'progress - returns the ratio of completed to incomplete': function() {
+    buildCollection.apply(this);
+    //Push some mock MediaItems
+    this.collection.add({completed:false});
+    this.collection.add({completed:true});
+    this.collection.add({completed:true});
+    assert.eql(2/3, this.collection.progress());
+  },
 
-    'returns the ratio of completed to incomplete': function(t) {
-      t.expect(1);
-      //Push some mock MediaItems
-      this.collection.push({completed:false});
-      this.collection.push({completed:true});
-      this.collection.push({completed:true});
-      t.equals(2/3, this.collection.progress());
-      t.done();
-    }
-  }),
+  'remaining_list - returns empty list on empty collection': function() {
+    buildCollection.apply(this);
+    assert.eql(0, this.collection.remaining_list().length);
+  },
 
-  'remaining_list': testCase({
-    setUp: buildCollection,
+  'remaining_list - returns only the incomplete items': function() {
+    buildCollection.apply(this);
+    //Push some mock MediaItems
+    this.collection.add({completed:false});
+    this.collection.add({completed:true});
+    this.collection.add({completed:true});
+    var remaining = this.collection.remaining_list();
+    assert.eql(1, remaining.length);
+    assert.eql(false, remaining[0].get('completed'));
+  },
 
-    'returns empty list on empty collection': function(t) {
-      t.expect(1);
-      t.equals(0, this.collection.remaining_list().length);
-      t.done();
-    },
+  'completed_list - returns empty list on empty collection': function() {
+    buildCollection.apply(this);
+    assert.eql(0, this.collection.completed_list().length);
+  },
 
-    'returns only the incomplete items': function(t) {
-      t.expect(2);
-      //Push some mock MediaItems
-      this.collection.push({completed:false});
-      this.collection.push({completed:true});
-      this.collection.push({completed:true});
-      var remaining = this.collection.remaining_list();
-      t.equals(1, remaining.length);
-      t.equals(false, remaining[0].completed);
-      t.done();
-    }
-  }),
-
-  'completed_list': testCase({
-    setUp: buildCollection,
-
-    'returns empty list on empty collection': function(t) {
-      t.expect(1);
-      t.equals(0, this.collection.completed_list().length);
-      t.done();
-    },
-    'returns only the incomplete items': function(t) {
-      t.expect(2);
-      //Push some mock MediaItems
-      this.collection.push({completed:false});
-      this.collection.push({completed:true});
-      this.collection.push({completed:true});
-      var completed = this.collection.completed_list();
-      t.equals(2, completed.length);
-      t.equals(true, completed.every(function(i) { return i.completed; }));
-      t.done();
-    }
-  })
+  'completed_list - returns only the incomplete items': function() {
+    buildCollection.apply(this);
+    //Push some mock MediaItems
+    this.collection.add({completed:false});
+    this.collection.add({completed:true});
+    this.collection.add({completed:true});
+    var completed = this.collection.completed_list();
+    assert.eql(2, completed.length);
+    assert.eql(true, completed.every(function(i) { 
+      return i.get('completed');
+    }));
+  }
 };

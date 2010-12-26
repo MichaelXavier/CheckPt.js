@@ -14,3 +14,4 @@ module.exports = {
   }
 };
 */
+module.exports = {noop: function() {}};

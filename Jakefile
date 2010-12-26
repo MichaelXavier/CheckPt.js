@@ -1,6 +1,21 @@
-var reporter = require('nodeunit').reporters.default;
+var exec  = require('child_process').exec,
 
-desc('Run the test suite (requires nodeunit)');
+    expresso_args = ['-I lib', '--timeout 2000'];
+
+function dump(err, sout, serr) {
+  if (err)  console.error(out);
+  if (sout) console.log(out);
+  if (serr) console.error(serr);
+}
+
+desc('Run the test quite (expresso)');
 task('test', [], function() {
-  reporter.run(['test']);
+  exec('expresso', expresso_args, dump);
+});
+
+namespace('test', function() {
+  desc('Run the test suite with coverage');
+  task('coverage', [], function() {
+    exec('expresso', expresso_args.concat(['--coverage']), dump);
+  });
 });
