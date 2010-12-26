@@ -2,6 +2,7 @@
 !highlight  = #62626B
 !medium     = #1E1F21
 !medium2    = #35373B
+!medium_shadow = rgba(20, 21, 23, 0.55)
 !light      = #575B61
 !dark       = #101112
 !text       = #FFFFFF
@@ -45,7 +46,6 @@ body
   :width 650px
 
 +collection_bar
- :font-family "lucida grande", sans-serif
  :font-size 12px
  :font-weight bold
  :line-height 1
@@ -59,10 +59,10 @@ body
  :background -moz-linear-gradient(0% 100% 90deg, !medium, !medium2)
  :background -webkit-gradient(linear, 0% 0%, 0% 100%, from(!medium2), to(!medium))
  :color !text
- :width 150px
- :border 1px solid !dark
+ :width 155px
  :float left
  =border-radius 5px
+ =box-shadow inset 0 0 3px 1px !medium_shadow
  +collection_bar
 
 .ui-progressbar
@@ -88,13 +88,14 @@ body
   :width 100%
 
 .collection_progress_incomplete
-  //:background-color !incomplete
   :background !incomplete
   :background -moz-linear-gradient(0% 100% 90deg, !incomplete, !incomplete2)
-  :background -webkit-gradient(linear, 0% 0%, 0% 100%, from(!incomplete2), to(!complete))
+  :background -webkit-gradient(linear, 0% 0%, 0% 100%, from(!incomplete2), to(!incomplete))
 
 .collection_progress_complete
   :background-color !complete
+  :background -moz-linear-gradient(0% 100% 90deg, !complete, !complete2)
+  :background -webkit-gradient(linear, 0% 0%, 0% 100%, from(!complete2), to(!complete))
 
 .clear
   :clear both

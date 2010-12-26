@@ -1,5 +1,8 @@
-.media_collection.widget
-  .collection_title
-    %h3= media_collection.name
-  .progress_container
-    #progress_bar.collection_progress
+.media_collection
+  .widget
+    .collection_title
+      %h3= media_collection.get('name')
+    .progress_container
+      #progress_bar.collection_progress
+  .existing_media_items
+    = partial('media_item', media_collection.get('items'))

@@ -12,8 +12,8 @@ app.configure(function(){
   app.set('view engine', 'haml');
   app.use(express.bodyDecoder());
   app.use(express.methodOverride());
-  // What does this do?
   app.use(express.compiler({ src: __dirname + '/public', enable: ['sass'] }));
+  app.use(express.logger());
   app.use(app.router);
   app.use(express.staticProvider(__dirname + '/public'));
 });
@@ -30,7 +30,10 @@ app.configure('production', function(){
 
 app.get('/', function(req, res){
   //FIXME: dummy for testing
-  res.render('index', {locals: {media_collections: [{name: 'MC NAME'}]}});
+  var mc = new MediaCollection({name: 'MC NAME'});
+  mc.push(new MediaItem({name: 'Episode 1', completed: true}));
+  mc.push(new MediaItem({name: 'Episode 2', completed: false}));
+  res.render('index', {locals: {media_collections: [mc]}});
 });
 
 // REST
