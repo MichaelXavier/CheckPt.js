@@ -1,0 +1,10 @@
+.media_item
+  .widget
+    .media_item_title
+      h3= media_item.get('name')
+    - if (media_item.get('completed'))
+      .progress_container.complete
+        h3 Completed on #{media_item.get('completed_on')}
+    - else
+      .progress_container.incompleted
+        h3 Incomplete
