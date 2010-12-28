@@ -10,6 +10,8 @@
 !incomplete2 = #3B7322
 !complete    = #1A4C58
 !complete2   = #226373
+!top         = 100
+!middle      = -10
 
 body
   :font 14px/1.5 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif
@@ -35,35 +37,46 @@ body
 #content
   :padding 50px
 
-.widget
-  =box-shadow 5px 5px 6px !medium
++foreground
+  :position relative
+  :z-index !top
 
-.media_collection
++rounded
+  =border-radius 5px
+
+.widget
   :background-color !light
   =border-radius 5px
   :padding 0
   :height 50px
   :width 650px
+  =box-shadow 5px 5px 6px !medium
+  +foreground
+
+.media_collection
 
 +collection_bar
- :font-size 12px
- :font-weight bold
- :line-height 1
- :text-align center
- :text-shadow 0 1px 0px #eee
- :height 50px
- :vertical-align baseline
+  :font-size 12px
+  :font-weight bold
+  :line-height 1
+  :text-align center
+  :text-shadow 0 1px 0px #eee
+  :height 50px
+  :vertical-align baseline
 
 .collection_title
- :background !medium
- :background -moz-linear-gradient(0% 100% 90deg, !medium, !medium2)
- :background -webkit-gradient(linear, 0% 0%, 0% 100%, from(!medium2), to(!medium))
- :color !text
- :width 155px
- :float left
- =border-radius 5px
- =box-shadow inset 0 0 3px 1px !medium_shadow
- +collection_bar
+  :background !medium
+  :background -moz-linear-gradient(0% 100% 90deg, !medium, !medium2)
+  :background -webkit-gradient(linear, 0% 0%, 0% 100%, from(!medium2), to(!medium))
+  :color !text
+  :width 155px
+  :float left
+  =box-shadow inset 0 0 3px 1px !medium_shadow
+  +rounded
+  +collection_bar
+
+.existing_media_items
+  :margin-left 20px
 
 .ui-progressbar
   :display inline

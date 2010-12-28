@@ -31,14 +31,16 @@ app.configure('production', function(){
 app.get('/', function(req, res){
   //FIXME: dummy for testing
   var mc = new MediaCollection({name: 'MC NAME'});
-  mc.push(new MediaItem({name: 'Episode 1', completed: true}));
-  mc.push(new MediaItem({name: 'Episode 2', completed: false}));
+  mc.add(new MediaItem({name: 'Episode 1', completed: true}));
+  mc.add(new MediaItem({name: 'Episode 2', completed: false}));
   res.render('index', {locals: {media_collections: [mc]}});
 });
 
 // REST
+/*
 router.rest(app, 'media_collections', MediaCollection);
 router.rest(app, 'media_items', MediaItem);
+*/
 
 
 // Only listen on $ node app.js
