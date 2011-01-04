@@ -3,8 +3,8 @@ var exec  = require('child_process').exec,
     expresso_args = ['-I lib', '--timeout 2000'];
 
 function dump(err, sout, serr) {
-  if (err)  console.error(out);
-  if (sout) console.log(out);
+  if (err)  console.error(err);
+  if (sout) console.log(sout);
   if (serr) console.error(serr);
 }
 
