@@ -1,9 +1,11 @@
 var express         = require('express'),
     app             = module.exports = express.createServer(),
     argv            = require('optimist').argv,
+    sys             = require('sys'),
     MediaCollection = require('./lib/media_collection'),
     MediaItem       = require('./lib/media_item'),
-    router          = require('./lib/router');
+    router          = require('./lib/router'),
+    CheckPt         = require('./lib/checkpt');
 
 // Configuration
 
@@ -30,10 +32,24 @@ app.configure('production', function(){
 
 app.get('/', function(req, res){
   //FIXME: dummy for testing
+  /*
   var mc = new MediaCollection({name: 'MC NAME'});
   mc.add(new MediaItem({name: 'Episode 1', completed: true}));
   mc.add(new MediaItem({name: 'Episode 2', completed: false}));
-  res.render('index', {locals: {media_collections: [mc]}});
+  */
+  var cp = new CheckPt();
+  cp.all(function(err, mcs) {
+    //console.log("MCS: (" + typeof(mcs) + ") " + sys.inspect(mcs));//MXDEBUG
+    //console.log("ITEMS: (" + typeof(mcs) + ") " + sys.inspect(mcs));//MXDEBUG
+
+    console.log("MCS: (" + typeof(mcs.models) + ") " + JSON.stringify(mcs['0']));//MXDEBUG
+    if (err) {
+      //TODO: flash
+      console.log("EXPLOSIONS! " + JSON.stringify(err));
+    } else {
+      res.render('index', {locals: {media_collections: mcs.models}});
+    }
+  });
 });
 
 // REST
