@@ -1,5 +1,6 @@
 var MediaCollection = require('./lib/media_collection'),
     MediaItem       = require('./lib/media_item'),
+    inspect       = require('sys').inspect,//MXDEBUG
     CheckPt         = require('./lib/checkpt');
 
 /*
@@ -17,13 +18,21 @@ console.log('cp get: ' + JSON.stringify(cp.fetch()));
 
 var db = require('riak-js').getClient();
 
-var mc1 = new MediaCollection({name:'Curb Your Enthusiasm'});
-mc1.add(new MediaItem({name:'Episode1'}));
-mc1.add(new MediaItem({name:'Episode2'}));
+var mc1 = new MediaCollection({
+  name:'Curb Your Enthusiasm',
+  items: [
+    new MediaItem({name:'Episode1'}),
+    new MediaItem({name:'Episode2'}),
+  ]
+});
 
-var mc2 = new MediaCollection({name:'Oz'});
-mc2.add(new MediaItem({name:'Episode3'}));
-mc2.add(new MediaItem({name:'Episode4'}));
+var mc2 = new MediaCollection({
+  name:'Oz',
+  items: [
+    new MediaItem({name:'Episode1'}),
+    new MediaItem({name:'Episode2'}),
+  ]
+});
 
 console.log('Will save to 1: ' + JSON.stringify(mc1));
 console.log('Will save to 2: ' + JSON.stringify(mc2));

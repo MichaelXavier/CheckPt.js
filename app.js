@@ -35,18 +35,28 @@ app.configure('production', function(){
 app.get('/', function(req, res){
   db.getAll(MediaCollection.bucket, function(err, results) {
     if (err) {
-      res.send('EXPLOSIONS! ' + err);
+      res.send('EXPLOSIONS! ' + err, 500);
     } else {
       res.render('index', {locals: {checkpt: JSON.stringify(results.map(function(r) { return r.data; }))}});
     }
   });
 });
 
+app.get('/checkpt', function(req, res){
+  db.getAll(MediaCollection.bucket, function(err, results) {
+    if (err) {
+      res.send('EXPLOSIONS! ' + err, 500);
+    } else {
+      res.send(JSON.stringify(results.map(function(r) { return r.data; })));
+    }
+  });
+});
+
 // Get a single MediaCollection
-app.get('/:id', function(req, res){
+app.get('/checkpt/:id', function(req, res){
   db.get(MediaCollection.bucket, req.params.id, function(err, val) {
     if (err) {
-      res.send('EXPLOSIONS! ' + err);
+      res.send('EXPLOSIONS! ' + err, 500);
     } else {
       //FIXME: 404?
       res.render('show', {locals: {media_collection: val}});
@@ -60,7 +70,7 @@ app.get('/:id', function(req, res){
 app.post('/', function(req, res){
   db.save(MediaCollection.bucket, null, req.params.data, function(err, _, meta) {
     if (err) {
-      res.send('EXPLOSIONS! ' + err);
+      res.send('EXPLOSIONS! ' + err, 500);
     } else {
       res.send(meta.key);
     }
@@ -72,7 +82,7 @@ app.post('/', function(req, res){
 app.put('/:id', function(req, res){
   db.save(MediaCollection.bucket, params.id, req.params.data, function(err) {
     if (err) {
-      res.send('EXPLOSIONS! ' + err);
+      res.send('EXPLOSIONS! ' + err, 500);
     } else {
       res.send(200);
     }

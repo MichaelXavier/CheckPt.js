@@ -1,1 +1,12 @@
-new CheckPt(#{checkpt})
+#app Empty App
+
+:javascript
+  | $(function() {
+  |   // this is gross
+  |   window.App = new CheckPtView({collection: new CheckPt(!{checkpt}.map(function(r) { return JSON.parse(r); }))});
+
+  |   // this is REALLY gross
+  |   setTimeout(function() {
+  |     App.render();
+  |   }, 1000);
+  | });
