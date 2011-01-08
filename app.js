@@ -1,11 +1,12 @@
 var express         = require('express'),
     app             = module.exports = express.createServer(),
     argv            = require('optimist').argv,
-    sys             = require('sys'),
+    inspect         = require('sys').inspect,
     MediaCollection = require('./lib/media_collection'),
     MediaItem       = require('./lib/media_item'),
     router          = require('./lib/router'),
-    CheckPt         = require('./lib/checkpt');
+    CheckPt         = require('./lib/checkpt'),
+    db = require('riak-js').getClient();//FIXME
 
 // Configuration
 
@@ -31,33 +32,24 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', function(req, res){
-  //FIXME: dummy for testing
-  /*
-  var mc = new MediaCollection({name: 'MC NAME'});
-  mc.add(new MediaItem({name: 'Episode 1', completed: true}));
-  mc.add(new MediaItem({name: 'Episode 2', completed: false}));
-  */
-  var cp = new CheckPt();
-  cp.all(function(err, mcs) {
-    //console.log("MCS: (" + typeof(mcs) + ") " + sys.inspect(mcs));//MXDEBUG
-    //console.log("ITEMS: (" + typeof(mcs) + ") " + sys.inspect(mcs));//MXDEBUG
-
-    console.log("MCS: (" + typeof(mcs.models) + ") " + JSON.stringify(mcs['0']));//MXDEBUG
+  db.getAll(MediaCollection.bucket, function(err, results) {
     if (err) {
-      //TODO: flash
-      console.log("EXPLOSIONS! " + JSON.stringify(err));
+      res.send('EXPLOSIONS! ' + err);
     } else {
-      res.render('index', {locals: {media_collections: mcs.models}});
+      res.render('index', {locals: {checkpt: JSON.stringify(results.map(function(r) { return r.data; }))}});
     }
   });
 });
 
-// REST
-/*
-router.rest(app, 'media_collections', MediaCollection);
-router.rest(app, 'media_items', MediaItem);
-*/
-
+app.get('/:id', function(req, res){
+  db.get(MediaCollection.bucket, req.params.id, function(err, val) {
+    if (err) { 
+      res.send('EXPLOSIONS! ' + err);
+    } else {
+      res.render('show', {locals: {media_collection: val}});
+    }
+  });
+})
 
 // Only listen on $ node app.js
 

@@ -5,5 +5,4 @@
     .progress_container
       #progress_bar.collection_progress
   .existing_media_items
-    != console.log(JSON.stringify(media_collection))
-    != partial('media_item', media_collection.get('items'))
+    != partial('media_item', media_collection.get('items').models)
