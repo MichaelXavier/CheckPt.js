@@ -2,11 +2,23 @@ $(function() {
   //================ VIEWS =================
   window.CheckPtView = Backbone.View.extend({
     render: function() {
-      $(this.el).html('Collection: ' + JSON.stringify(this.collection));//FIXME
+      //This is gross, figure out a better place to put this
+      //$(this.el);
+      //$(this.el).html('Collection: ' + JSON.stringify(this.collection));//FIXME
+      $(this.el).html(Mustache.to_html(this.template, this.collection))
       return this;
     },
 
-    el: $('#app')
+    el: $('#app'),
+
+    template: '<ul>{{#models}}' +
+                '<li>{{#toJSON}}' +
+                  '{{name}}\n' +
+                  '<ol>{{#items}}' +
+                    '<li>{{name}}</li>' +
+                  '{{/items}}</ol>' +
+                '{{/toJSON}}</li>' +
+              '{{/models}}</ul>'
   });
 
   window.MediaCollectionView = Backbone.View.extend({
