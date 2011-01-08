@@ -31,6 +31,7 @@ app.configure('production', function(){
 
 // Routes
 
+// Get all MediaCollections (CheckPt)
 app.get('/', function(req, res){
   db.getAll(MediaCollection.bucket, function(err, results) {
     if (err) {
@@ -41,15 +42,50 @@ app.get('/', function(req, res){
   });
 });
 
+// Get a single MediaCollection
 app.get('/:id', function(req, res){
   db.get(MediaCollection.bucket, req.params.id, function(err, val) {
-    if (err) { 
+    if (err) {
       res.send('EXPLOSIONS! ' + err);
     } else {
+      //FIXME: 404?
       res.render('show', {locals: {media_collection: val}});
     }
   });
 })
+
+// Create a MediaCollection
+//FIXME: make sure ui sends it in data so random post vars don't get included in the serialized model
+//FIXME: this will be an ajax response with the key as the body, handle accordingly in the UI
+app.post('/', function(req, res){
+  db.save(MediaCollection.bucket, null, req.params.data, function(err, _, meta) {
+    if (err) {
+      res.send('EXPLOSIONS! ' + err);
+    } else {
+      res.send(meta.key);
+    }
+  });
+});
+
+// Update a MediaCollection
+//FIXME: for the time being this will just overwrite the key
+app.put('/:id', function(req, res){
+  db.save(MediaCollection.bucket, params.id, req.params.data, function(err) {
+    if (err) {
+      res.send('EXPLOSIONS! ' + err);
+    } else {
+      res.send(200);
+    }
+  });
+});
+
+//FIXME: for debugging purposes
+app.get('/debug/delete_all', function(req, res) {
+  db.keys(MediaCollection.bucket, function(err, keys) {
+    keys.forEach(function(k) {db.remove(MediaCollection.bucket, k)});
+    res.send(200);
+  });
+});
 
 // Only listen on $ node app.js
 
