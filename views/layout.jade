@@ -21,18 +21,10 @@ html(lang="en")
       h1 CheckPt
       .emphasis Consume Media Responsibly
     #content
-      script(type='text/template', id='checkpt_template')
-        | <ul class="media_collections">
-        |  </ul>
+      != partial('checkpt_template')
 
-      script(type='text/template', id='media_collection_template')
-        |  <li class="media_collection">
-        |    <%= name %><br />
-        |    <ol class="media_items">
-        |    </ol>
-        |  </li>
+      != partial('media_collection_template')
 
-      script(type='text/template', id='media_item_template')
-        |  <li class="media_item"><%= name %></li>
+      != partial('media_item_template')
 
       != body
