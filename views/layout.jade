@@ -3,10 +3,12 @@ html(lang="en")
   head
     title CheckPt
     link(rel='stylesheet', href='/stylesheets/style.css')
-    script(type='text/javascript', src='javascripts/jquery.min.js?')
-    script(type='text/javascript', src='javascripts/underscore.min.js')
-    script(type='text/javascript', src='javascripts/backbone.min.js')
-    script(type='text/javascript', src='javascripts/application.js?' + Date.now())
+    script(type='text/javascript', src='javascripts/LAB.min.js')
+    :javascript
+      |  $LAB.script('javascripts/jquery.min.js')
+      |      .script('javascripts/underscore.min.js').wait()
+      |      .script('javascripts/backbone.min.js').wait()
+      |      .script('javascripts/application.js?' + Date.now());
   body
     #header
       h1 CheckPt
