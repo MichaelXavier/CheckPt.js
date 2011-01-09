@@ -46,6 +46,11 @@ $(function() {
   //--------------- MediaItemCollection collection ---------------
   window.MediaItemCollection = Backbone.Collection.extend({
     model: MediaItem,
+    initialize: function(media_item_attrs) {
+      this.models = media_item_attrs.map(function(item_attrs) { 
+        return new MediaItem(item_attrs); 
+      });
+    }
   });
 
   //--------------- MediaCollection model ---------------
@@ -83,7 +88,7 @@ $(function() {
     parse: function(json_strings) {
       return json_strings.map(function(j) {
         var json = JSON.parse(j);
-        json.items = new MediaItemCollection(json.items.map(function(item_attrs) { return new MediaItem(item_attrs); }));
+        json.items = new MediaItemCollection(json.items);
         return json;
       });
     }
@@ -91,6 +96,7 @@ $(function() {
 
   //--------------- App Setup ---------------
   window.App = new CheckPtView({collection: new CheckPt()});
+  //FIXME: use events, a fetch should re-render
   App.collection.fetch({
     success: function(collection, resp) {
       App.render();
