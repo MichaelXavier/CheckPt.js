@@ -4,6 +4,7 @@
 !medium2    = #35373B
 !medium_shadow = rgba(20, 21, 23, 0.55)
 !light      = #575B61
+!light2     = #494D52
 !dark       = #101112
 !text       = #FFFFFF
 !incomplete  = #2D581A
@@ -18,14 +19,25 @@ body
   :color !text
   :background-color !bg
 
++raised
+  :border-top 1px solid !highlight
+  :border-left 1px solid !highlight
+  :border-bottom 1px solid !dark
+  :border-right 1px solid !dark
+
++sunken
+  :border-top 1px solid !dark
+  :border-left 1px solid !dark
+  :border-bottom 1px solid !highlight
+  :border-right 1px solid !highlight
+
 #header
   :background-color !medium
   :margin 0
   :padding 25px
-  :border-bottom 1px solid !highlight
-  :border-right 1px solid !highlight
   :height 100px
   :font-size 150%
+  +raised
 
 #header > h1
   :margin 0
@@ -112,3 +124,66 @@ body
 
 .clear
   :clear both
+
+.media_items
+  :padding-top 10px
+
+.media_item
+  :list-style-type none
+  :margin 5px 5px 5px -30px
+  :padding 10px
+  :font-size 18px
+  :background-color !dark
+  +sunken
+
+// Ribbon banner
+ribbon_width: 650
+
+.ribbon_background
+  :clear both
+  :margin 0px auto
+  :width {ribbon_width}px
+  :background-color !medium
+  :min-height 500px
+  +raised
+
+.ribbon
+  :background !light
+  :height 50px
+  :width {parseInt(ribbon_width) + 30}px
+  :position relative
+  :left -15px
+  :top 30px
+  :float left
+  =box-shadow 0px 0px 4px rgba(0,0,0,0.55)
+  :z-index: 100
+
+.ribbon h2
+  :font-size 30px
+  :color #fff
+  :padding-top 4px
+  :margin 0
+  :text-align center
+  :text-shadow 1px 1px 2px rgba(0,0,0,0.2)
+
+.triangle-l
+  :border-color transparent !light2 transparent transparent
+  :border-style solid
+  :border-width 15px
+  :height 0px
+  :width 0px
+  :position relative
+  :left -30px
+  :top 65px
+  :z-index -1
+
+.triangle-r
+  :border-color transparent transparent transparent !light2
+  :border-style solid
+  :border-width 15px
+  :height 0px
+  :width 0px
+  :position relative
+  :left {ribbon_width}px
+  :top 35px
+  :z-index -1
