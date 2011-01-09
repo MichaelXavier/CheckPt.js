@@ -5,7 +5,6 @@ html(lang="en")
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(type='text/javascript', src='javascripts/jquery.min.js?')
     script(type='text/javascript', src='javascripts/underscore.min.js')
-    script(type='text/javascript', src='javascripts/mustache.js')
     script(type='text/javascript', src='javascripts/backbone.min.js')
     script(type='text/javascript', src='javascripts/application.js?' + Date.now())
   body
@@ -13,4 +12,17 @@ html(lang="en")
       h1 CheckPt
       .emphasis Consume Media Responsibly
     #content
+      script(type='text/template', id='checkpt-template')
+        | <ul>
+        |   <% forEach(function(media_collection) { %>
+        |    <li>
+        |      <%= media_collection.name %><br />
+        |      <ol>
+        |        <% media_collection.items.toJSON().forEach(function(item) { %>
+        |          <li><%= item.name %></li>
+        |        <% }); %>
+        |      </ol>
+        |    </li>
+        |   <% }); %>
+        |  </ul>
       != body

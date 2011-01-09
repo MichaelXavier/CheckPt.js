@@ -1,24 +1,17 @@
+//TODO: recursive toJSON for toplevel, will clean up view immensely
+//TODO: move parse stuff into initializer I think so it doesn't have to do a live fetch to recursively parse
 $(function() {
   //================ VIEWS =================
   window.CheckPtView = Backbone.View.extend({
     render: function() {
-      //This is gross, figure out a better place to put this
-      //$(this.el);
-      //$(this.el).html('Collection: ' + JSON.stringify(this.collection));//FIXME
-      $(this.el).html(Mustache.to_html(this.template, this.collection))
+      $(this.el).html(this.template(this.collection.toJSON()));
       return this;
     },
 
     el: $('#app'),
 
-    template: '<ul>{{#models}}' +
-                '<li>{{#toJSON}}' +
-                  '{{name}}\n' +
-                  '<ol>{{#items}}' +
-                    '<li>{{name}}</li>' +
-                  '{{/items}}</ol>' +
-                '{{/toJSON}}</li>' +
-              '{{/models}}</ul>'
+
+    template: _.template($('#checkpt-template').html())
   });
 
   window.MediaCollectionView = Backbone.View.extend({
@@ -52,62 +45,58 @@ $(function() {
 
   //--------------- MediaItemCollection collection ---------------
   window.MediaItemCollection = Backbone.Collection.extend({
-    model: MediaItem
+    model: MediaItem,
   });
 
   //--------------- MediaCollection model ---------------
   window.MediaCollection = Backbone.Model.extend({
-      //In the current backbone HEAD, you can do this:
-      //defaults: function() { return {items: []};},
-      initialize: function(media_collections) {
-        if (!this.get('items')) this.set({'items': new MediaItemCollection([])});
-      },
+    //In the current backbone HEAD, you can do this:
+    //defaults: function() { return {items: []};},
 
-      validate: function(attrs) {
-        if (!this.get('name')) return "Name required";
-      },
+    validate: function(attrs) {
+      if (!this.get('name')) return "Name required";
+    },
 
-      progress: function() {
-        var is = partition.apply(this);
-        return is[0].length == 0 ? 0.0 : is[0].length / (is[0].length + is[1].length);
-      },
+    progress: function() {
+      var is = partition.apply(this);
+      return is[0].length == 0 ? 0.0 : is[0].length / (is[0].length + is[1].length);
+    },
 
-      remaining_list: function() {
-        return this.get('items').filter(function(i) {return !i.get('completed');});
-      },
+    remaining_list: function() {
+      return this.get('items').filter(function(i) {return !i.get('completed');});
+    },
 
-      completed_list: function() {
-        return this.get('items').filter(function(i) {return i.get('completed');});
-      },
+    completed_list: function() {
+      return this.get('items').filter(function(i) {return i.get('completed');});
+    },
 
-      add: function(item) {
-        this.get('items').add(item);
-      }
-
-      //MXDEBUG: this is supposed to be the default behavior already I think
-      /*parse: function(response) {
-        return JSON.parse(response);
-      }*/
-    });
+    add: function(item) {
+      this.get('items').add(item);
+    }
+  });
 
   //--------------- CheckPt collection ---------------
   window.CheckPt = Backbone.Collection.extend({
     model: MediaCollection,
-    url: '/checkpt'
-    /*parse: function(response) {
-      //FIXME
-      console.log("PARSE CALLED WITH " + JSON.stringify(response));
-    }*/
+    url: '/checkpt',
+    // Evidently I cannot use the default because response returns an array of strings
+    parse: function(json_strings) {
+      return json_strings.map(function(j) {
+        var json = JSON.parse(j);
+        json.items = new MediaItemCollection(json.items.map(function(item_attrs) { return new MediaItem(item_attrs); }));
+        return json;
+      });
+    }
   });
 
   //--------------- App Setup ---------------
-  //window.App = new CheckPtView();
-
-  // Lets go!
-  //DEBUG: useless delay for testing purposes
-  /*
-  setTimeout(function() {
-    App.render();
-  }, 1000)
-  */
+  window.App = new CheckPtView({collection: new CheckPt()});
+  App.collection.fetch({
+    success: function(collection, resp) {
+      App.render();
+    },
+    error: function(collection, resp) {
+      alert('Failed to fetch app: ' + JSON.stringify(resp));
+    }
+  });
 });

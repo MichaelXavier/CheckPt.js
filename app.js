@@ -31,17 +31,12 @@ app.configure('production', function(){
 
 // Routes
 
-// Get all MediaCollections (CheckPt)
+// Index (loading page
 app.get('/', function(req, res){
-  db.getAll(MediaCollection.bucket, function(err, results) {
-    if (err) {
-      res.send('EXPLOSIONS! ' + err, 500);
-    } else {
-      res.render('index', {locals: {checkpt: JSON.stringify(results.map(function(r) { return r.data; }))}});
-    }
-  });
+  res.render('index');
 });
 
+// Get all media collections
 app.get('/checkpt', function(req, res){
   db.getAll(MediaCollection.bucket, function(err, results) {
     if (err) {
