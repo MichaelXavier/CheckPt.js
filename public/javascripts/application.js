@@ -1,24 +1,53 @@
 //TODO: recursive toJSON for toplevel, will clean up view immensely
-//TODO: move parse stuff into initializer I think so it doesn't have to do a live fetch to recursively parse
 $(function() {
   //================ VIEWS =================
   window.CheckPtView = Backbone.View.extend({
     render: function() {
       $(this.el).html(this.template(this.collection.toJSON()));
+      var media_collections_el = $(this.el).children('.media_collections');
+      this.collection.forEach(function(media_collection) {
+        new MediaCollectionView({
+          model: media_collection,
+          el:    media_collections_el
+        }).render();
+      });
       return this;
     },
 
     el: $('#app'),
 
-
-    template: _.template($('#checkpt-template').html())
+    template: _.template($('#checkpt_template').html())
   });
 
+  // el is the parent container for media collections
   window.MediaCollectionView = Backbone.View.extend({
-    render: function(options) {
+    render: function() {
+      var media_collection_el = $(this.template(this.model.toJSON()));
+      this.model.get('items').forEach(function(media_item) {
+        new MediaItemView({
+          model: media_item,
+          el:    media_collection_el.children('.media_items')
+        }).render();
+      });
+      $(this.el).append(media_collection_el);
+      return this;
     },
 
-    className: 'media_collection'
+    className: 'media_collection',
+
+    template: _.template($('#media_collection_template').html())
+  });
+
+  // el is the parent container for media_items
+  window.MediaItemView = Backbone.View.extend({
+    render: function(options) {
+      $(this.el).append(this.template(this.model.toJSON()));
+      return this;
+    },
+
+    className: 'media_item',
+
+    template: _.template($('#media_item_template').html())
   });
 
   //================ CORE MODELS =================
@@ -92,6 +121,8 @@ $(function() {
         return json;
       });
     }
+    // FIXME: calling Backbone.Collection.prototype.toJSON.call(this)
+    // returns undefined :(
   });
 
   //--------------- App Setup ---------------

@@ -12,17 +12,18 @@ html(lang="en")
       h1 CheckPt
       .emphasis Consume Media Responsibly
     #content
-      script(type='text/template', id='checkpt-template')
-        | <ul>
-        |   <% forEach(function(media_collection) { %>
-        |    <li>
-        |      <%= media_collection.name %><br />
-        |      <ol>
-        |        <% media_collection.items.toJSON().forEach(function(item) { %>
-        |          <li><%= item.name %></li>
-        |        <% }); %>
-        |      </ol>
-        |    </li>
-        |   <% }); %>
+      script(type='text/template', id='checkpt_template')
+        | <ul class="media_collections">
         |  </ul>
+
+      script(type='text/template', id='media_collection_template')
+        |  <li class="media_collection">
+        |    <%= name %><br />
+        |    <ol class="media_items">
+        |    </ol>
+        |  </li>
+
+      script(type='text/template', id='media_item_template')
+        |  <li class="media_item"><%= name %></li>
+
       != body
