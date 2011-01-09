@@ -76,8 +76,8 @@ $(function() {
   window.MediaItemCollection = Backbone.Collection.extend({
     model: MediaItem,
     initialize: function(media_item_attrs) {
-      this.models = media_item_attrs.map(function(item_attrs) { 
-        return new MediaItem(item_attrs); 
+      this.models = media_item_attrs.map(function(item_attrs) {
+        return new MediaItem(item_attrs);
       });
     }
   });
@@ -127,13 +127,10 @@ $(function() {
 
   //--------------- App Setup ---------------
   window.App = new CheckPtView({collection: new CheckPt()});
-  //FIXME: use events, a fetch should re-render
-  App.collection.fetch({
-    success: function(collection, resp) {
-      App.render();
-    },
-    error: function(collection, resp) {
-      alert('Failed to fetch app: ' + JSON.stringify(resp));
-    }
+
+  App.collection.bind('refresh', function() {
+    App.render();
   });
+
+  App.collection.fetch();
 });
