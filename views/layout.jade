@@ -5,17 +5,18 @@ html(lang="en")
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(type='text/javascript', src='javascripts/LAB.min.js')
     :javascript
+      |  var randy = '?' + Date.now();//MXDEBUG
       |  $LAB.script('javascripts/jquery.min.js')
       |      .script('javascripts/underscore.min.js').wait()
       |      .script('javascripts/backbone.min.js').wait()
-      |      .script('javascripts/views/checkpt_view.js')
-      |      .script('javascripts/views/media_collection_view.js')
-      |      .script('javascripts/views/media_item_view.js')
-      |      .script('javascripts/models/media_item.js')
-      |      .script('javascripts/models/media_item_collection.js')
-      |      .script('javascripts/models/media_collection.js')
-      |      .script('javascripts/models/checkpt.js').wait()
-      |      .script('javascripts/application.js?' + Date.now());
+      |      .script('javascripts/views/checkpt_view.js' + randy)
+      |      .script('javascripts/views/media_collection_view.js' + randy)
+      |      .script('javascripts/views/media_item_view.js' + randy)
+      |      .script('javascripts/models/media_item.js' + randy)
+      |      .script('javascripts/models/media_item_collection.js' + randy)
+      |      .script('javascripts/models/media_collection.js' + randy)
+      |      .script('javascripts/models/checkpt.js' + randy).wait()
+      |      .script('javascripts/application.js' + randy);
   body
     #header
       h1 CheckPt

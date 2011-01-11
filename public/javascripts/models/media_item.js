@@ -18,3 +18,5 @@ window.MediaItem = Backbone.Model.extend({
     this.set({'completed': false, 'completed_on': null});
   }
 });
+
+
