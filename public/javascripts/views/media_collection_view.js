@@ -1,6 +1,10 @@
 window.MediaCollectionView = Backbone.View.extend({
+  //TODO: break this up
+  //TODO: i think i can use find instead of children here
   render: function(container) {
 		this.el = $(this.template(this.model.toJSON()));
+    this.progress_bar = this.el.children('.ui-progressbar');
+    this.progress_bar.progressbar({value: this.progress()});
 		this.model.view = this;
 		var items = this.model.get('items');
 		items.view = this;
@@ -10,20 +14,18 @@ window.MediaCollectionView = Backbone.View.extend({
 				render(view_el.children('.media_items'));
     });
     $(container).append(this.el);
-		this.bind('change', this.change);//FIXME: WHYYYY wont delegateEvents work?
+		this.bind('change', this.update_progress_bar);
     return this;
   },
-
-	events: {
-		'change': 'update_progress_bar'
-	},
 
   className: 'media_collection',
 
   template: _.template($('#media_collection_template').html()),
 
+  //TODO: flip colors of the triangles (left always, right if 100%
 	update_progress_bar: function() {
-		alert('change detected in MC view');
-		alert(this.model.progress());//TODO: update a progress bar
-	}
+    this.progress_bar.progressbar('value', this.progress());
+	},
+
+  progress: function() {return this.model.progress() * 100;}
 });

@@ -7,7 +7,6 @@ window.MediaItemCollection = Backbone.Collection.extend({
 
   bind_events: function() {
     this.bind('change', function() {
-			alert('change detected in MIC');
 			this.view.trigger('change');
     });
   }

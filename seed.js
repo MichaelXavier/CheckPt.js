@@ -23,6 +23,7 @@ var mc1 = new MediaCollection({
   items: [
     new MediaItem({name:'Episode1'}),
     new MediaItem({name:'Episode2'}),
+    new MediaItem({name:'Episode3'}),
   ]
 });
 

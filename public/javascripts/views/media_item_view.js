@@ -6,14 +6,13 @@ window.MediaItemView = Backbone.View.extend({
 
   render: function(container) {
     this.el = $(this.template(this.model.toJSON()));
-    this.delegateEvents();//FIXME: events are doublefiring for some reason
+    this.delegateEvents();
+    this.bind_events();
     $(container).append(this.el);
     return this;
   },
 
   events: {
-    'complete'   : 'complete',
-    'incomplete' : 'incomplete',
     'dblclick'   : 'toggleComplete'
   },
 
@@ -37,5 +36,10 @@ window.MediaItemView = Backbone.View.extend({
     } else {
       this.complete();
     }
+  },
+
+  bind_events: function() {
+    this.bind('complete', this.complete);
+    this.bind('incomplete', this.incomplete);
   }
 });

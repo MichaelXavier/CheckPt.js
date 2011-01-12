@@ -11,8 +11,9 @@ window.MediaItem = Backbone.Model.extend({
   },
 
   complete: function(when) {
-    this.set({'completed': true})
-    if (when) this.set({'completed_on': when});
+    var attrs = {'completed': true};
+    if (when) attrs['completed_on'] = when;
+    this.set(attrs);
   },
 
   incomplete: function() {
@@ -21,7 +22,7 @@ window.MediaItem = Backbone.Model.extend({
 
   bind_events: function() {
     this.bind('change', function() {
-      alert('CHANGE IN MI');
+      //TODO
     });
   }
 });

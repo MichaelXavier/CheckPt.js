@@ -6,7 +6,8 @@ html(lang="en")
     script(type='text/javascript', src='javascripts/LAB.min.js')
     :javascript
       |  var randy = '?' + Date.now();//MXDEBUG
-      |  $LAB.script('javascripts/jquery.min.js')
+      |  $LAB.script('javascripts/jquery.min.js').wait()
+      |      .script('javascripts/jquery-ui.custom.min.js')
       |      .script('javascripts/underscore.min.js').wait()
       |      .script('javascripts/backbone.min.js').wait()
       |      .script('javascripts/views/checkpt_view.js' + randy)
