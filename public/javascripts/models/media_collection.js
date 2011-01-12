@@ -8,8 +8,9 @@ window.MediaCollection = Backbone.Model.extend({
   },
 
   progress: function() {
-    var is = partition.apply(this);
-    return is[0].length == 0 ? 0.0 : is[0].length / (is[0].length + is[1].length);
+    var rem = this.remaining_list(), 
+				com = this.completed_list();
+    return com.length == 0 ? 0.0 : com.length / (com.length + rem.length);
   },
 
   remaining_list: function() {
