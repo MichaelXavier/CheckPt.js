@@ -22,9 +22,22 @@ window.MediaCollectionView = Backbone.View.extend({
 
   template: _.template($('#media_collection_template').html()),
 
-  //TODO: flip colors of the triangles (left always, right if 100%
 	update_progress_bar: function() {
-    this.progress_bar.progressbar('value', this.progress());
+    var progress = this.progress();
+    //Fill left/right triangles
+    if (progress > 0) {
+      this.el.find('.triangle-l').addClass('triangle-l-complete');
+    } else {
+      this.el.find('.triangle-l').removeClass('triangle-l-complete');
+    }
+
+    if (progress >= 100) {
+      this.el.children('.triangle-r').addClass('triangle-r-complete');
+    } else {
+      this.el.find('.triangle-r').removeClass('triangle-r-complete');
+    }
+
+    this.progress_bar.progressbar('value', progress);
 	},
 
   progress: function() {return this.model.progress() * 100;}

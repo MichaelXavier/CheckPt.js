@@ -67,6 +67,9 @@ body
 
 .media_collection
 
++progress
+  :background-color !complete
+
 +collection_bar
   :font-size 12px
   :font-weight bold
@@ -75,7 +78,7 @@ body
   :text-shadow 0 1px 0px #eee
   :height 50px
   :vertical-align baseline
-  :background-color !complete
+  +progress
   //FIXME: background color iffy
 
 .collection_title
@@ -93,15 +96,8 @@ body
   :margin-left 20px
 
 .ui-progressbar
-  //:display inline
 
 .ui-progressbar-value
-  :border-top-right-radius 5px
-  :border-bottom-right-radius 5px
-  :-webkit-border-top-right-radius 5px
-  :-webkit-border-bottom-right-radius 5px
-  :-moz-border-radius-topright 5px
-  :-moz-border-radius-bottomright 5px
  +collection_bar
 
 .progress_container
@@ -185,6 +181,9 @@ ribbon_width: 650
   :top 65px
   :z-index -1
 
+.triangle-l-complete
+  :border-color transparent !complete transparent transparent
+
 .triangle-r
   :border-color transparent transparent transparent !light2
   :border-style solid
@@ -195,3 +194,6 @@ ribbon_width: 650
   :left {ribbon_width}px
   :top 35px
   :z-index -1
+
+.triangle-r-complete
+  :border-color transparent transparent transparent !complete
