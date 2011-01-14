@@ -1,4 +1,4 @@
 script(type='text/template', id='media_item_template')
-  |  <li class="media_item">
+  |  <li class="media_item<%= completed ? ' completed_media_item' : '' %>">
   |    <h3><%= name %></h3>
   |  </li>

@@ -2,12 +2,11 @@
 window.CheckPt = Backbone.Collection.extend({
   model: MediaCollection,
   url: '/checkpt',
-  // Evidently I cannot use the default because response returns an array of strings
-  parse: function(json_strings) {
-    return json_strings.map(function(j) {
-      var json = JSON.parse(j);
-      json.items = new MediaItemCollection(json.items);
-      return json;
+
+  parse: function(collections) {
+    return collections.map(function(raw_coll) {
+      raw_coll.items = new MediaItemCollection(raw_coll.items);
+      return raw_coll;
     });
   }
   // FIXME: calling Backbone.Collection.prototype.toJSON.call(this)

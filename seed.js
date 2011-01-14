@@ -39,11 +39,11 @@ console.log('Will save to 1: ' + JSON.stringify(mc1));
 console.log('Will save to 2: ' + JSON.stringify(mc2));
 
 
-db.save('media_collections', '1', JSON.stringify(mc1), {contentType: 'application/json'}, function(err) {
+db.save('media_collections', '1', mc1, function(err) {
   if (err) {
     console.log('ERR: ' + err);
   } else {
-    db.save('media_collections', '2', JSON.stringify(mc2), {contentType: 'application/json'}, function(err) {
+    db.save('media_collections', '2', mc2, function(err) {
       if (err) {
         console.log('ERR2: ' + err);
       } else {
