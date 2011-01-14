@@ -29,7 +29,7 @@ window.MediaItemView = Backbone.View.extend({
     this.model.incomplete();
     this.el.removeClass('completed_media_item');
   },
-  
+
   toggleComplete: function() {
     if(this.model.get('completed')) {
       this.incomplete();

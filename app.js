@@ -3,10 +3,8 @@ var express         = require('express'),
     argv            = require('optimist').argv,
     inspect         = require('sys').inspect,
     MediaCollection = require('./lib/media_collection'),
-    MediaItem       = require('./lib/media_item'),
-    router          = require('./lib/router'),
     CheckPt         = require('./lib/checkpt'),
-    db = require('riak-js').getClient();//FIXME
+    db              = require('riak-js').getClient();//FIXME
 
 // Configuration
 
@@ -43,6 +41,11 @@ app.get('/checkpt', function(req, res){
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
+      var ret = results.map(function(r) { 
+        // Merge key in as the ID if it isn't already
+        if (!r.data.id) r.data.id = r.meta.key; 
+        return r.data;
+      });//DEBUG
       res.send(results.map(function(r) { 
         // Merge key in as the ID if it isn't already
         if (!r.data.id) r.data.id = r.meta.key; 
@@ -69,20 +72,19 @@ app.get('/media_collections/:id', function(req, res){
 //FIXME: make sure ui sends it in data so random post vars don't get included in the serialized model
 //FIXME: this will be an ajax response with the key as the body, handle accordingly in the UI
 app.post('/media_collections', function(req, res){
-  db.save(MediaCollection.bucket, null, req.body, function(err, _, meta) {
+  db.save(MediaCollection.bucket, null, req.body, function(err, record, meta) {
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
       res.send(meta.key);// return it in the body, assign it to the model in the view
     }
   });
-  //res.send(200);//MXDEBUG
 });
 
 // Update a MediaCollection
 //FIXME: for the time being this will just overwrite the key
 app.put('/media_collections/:id', function(req, res){
-  db.save(MediaCollection.bucket, req.params.id, req.body, function(err) {
+  db.save(MediaCollection.bucket, req.params.id, JSON.stringify(req.body), function(err, result) {
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
