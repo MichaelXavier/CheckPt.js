@@ -22,6 +22,10 @@ window.MediaCollection = Backbone.Model.extend({
     return com.length == 0 ? 0.0 : com.length / (com.length + rem.length);
   },
 
+  completed: function() {
+    return this.remaining_list().length == 0;
+  },
+
   remaining_list: function() {
     return this.get('items').filter(function(i) {return !i.get('completed');});
   },

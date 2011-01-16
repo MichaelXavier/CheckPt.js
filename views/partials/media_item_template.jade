@@ -1,4 +1,10 @@
 script(type='text/template', id='media_item_template')
   |  <li class="media_item<%= completed ? ' completed_media_item' : '' %>">
   |    <h3><%= name %></h3>
+  |    <div class="item_flags">
+  |      <h4>
+  |        <span class="complete_status check_icon">Completed</span>
+  |        <span class="incomplete_status x_icon">Incomplete</span>
+  |      </h4>
+  |    </div>
   |  </li>

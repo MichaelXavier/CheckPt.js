@@ -2,9 +2,10 @@ window.MediaCollectionView = Backbone.View.extend({
   //TODO: break this up
   //TODO: i think i can use find instead of children here
   render: function(container) {
-		this.el = $(this.template(this.model.toJSON()));
+		this.el = $(this.template(this.model.attributes));
     this.progress_bar = this.el.children('.ui-progressbar');
     this.progress_bar.progressbar({value: this.progress()});
+
 		this.model.view = this;
 		var items = this.model.get('items');
 		items.view = this;
@@ -15,6 +16,12 @@ window.MediaCollectionView = Backbone.View.extend({
     });
     $(container).append(this.el);
 		this.bind('change', this.update_progress_bar);
+
+    var current_media_collection = this.el;
+    this.el.find('.add_item:first').click(function() {
+      new NewMediaItemView().render(current_media_collection);
+    });
+
     return this;
   },
 
