@@ -19,6 +19,13 @@ $(function() {
   };
 });
 
+function serializeForm($form) {
+  return _.reduce($form.find(':input'), function(acc, el) { 
+    acc[el.name] = el.value;
+    return acc;
+  }, {});
+}
+
 //FIXME: bind live on when these elements enter the page?
 function renderIcon(element, opts) {
   Raphael(element, opts[0], opts[1]).path(opts[2]).attr(opts[3]);

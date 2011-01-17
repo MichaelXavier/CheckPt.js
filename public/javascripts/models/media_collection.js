@@ -6,6 +6,8 @@ window.MediaCollection = Backbone.Model.extend({
 
   initialize: function(attrs) {//FIXME: not positive 1st arg is right...
     var media_collection = this;
+    //FIXME: fairly certain this doesn't propagate down to the model without using set()
+    if (!attrs.items) attrs.items = new MediaItemCollection();
     attrs.items.bind('change', function() {
       media_collection.trigger('change');
     });

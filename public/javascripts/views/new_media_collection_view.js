@@ -5,10 +5,16 @@ window.NewMediaCollectionView = Backbone.View.extend({
     //prepend before where the form goes
     $('#new_media_collection').before(this.el);
 
-    //TODO: i think this will continually re-render a blank form every time the
-    //element is clicked, which is what we want
     var rendered_form = $(this.form_template());
     this.el.click(function() {
+      //FIXME: this is refreshing the page. STOP IT
+      rendered_form.submit(function(event) {
+        // Add a media collection to the app, which should save
+        var mc = App.collection.create(serializeForm($(event.target)));
+        new MediaCollectionView({model: mc}).render($('#app'));
+        event.preventDefault();//FIXME: redundancy makes me sad, also doesn't work
+        return false;
+      });
       $('#new_media_collection').html(rendered_form);
     });
   },
