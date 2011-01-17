@@ -10,12 +10,12 @@ $(function() {
   App.collection.fetch();
 
   //Icons
+  //TODO: figure out to color icons with CSS
   window.Icons = {
     check: [32, 32, 'm 2.379,14.729 4.829,-4.83 5.75,5.749 10.919,-10.915 4.83,4.828 -15.749,15.747',
-            {fill: "#BADA55", stroke:'none'}],
+            {fill: "#2E8C29", stroke:'none'}],
     x: [32, 32, 'm 24.778,17.419 -3.502,-3.502 3.501,-3.502 -4.828,-4.83 -3.502,3.502 -3.502,-3.502 -4.828,4.83 3.501,3.502 -3.502,3.502 4.83,4.829 3.501,-3.502 3.501,3.502',
-            {fill: "#BADA55", stroke:'none'}]
-
+            {fill: "#8C2B29", stroke:'none'}]
   };
 });
 

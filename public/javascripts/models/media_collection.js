@@ -36,8 +36,11 @@ window.MediaCollection = Backbone.Model.extend({
     return this.get('items').filter(function(i) {return i.get('completed');});
   },
 
+  //FIXME: why am i using getters everywhere?
   add: function(item) {
+    debuggger;
     this.get('items').add(item);
+    if (this.view) this.view.add(item);
   },
 
   url: function() {

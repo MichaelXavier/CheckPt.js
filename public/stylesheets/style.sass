@@ -32,6 +32,9 @@ body
   :border-right 1px solid !highlight
   :background-color !dark
 
++clickable
+  :cursor pointer
+
 #header
   :background-color !medium
   :margin 0
@@ -209,6 +212,7 @@ ribbon_width: 650
   :padding 5px
   :margin 5px
   +rounded
+  +clickable
 
 .button h3
   :display inline
@@ -221,6 +225,7 @@ ribbon_width: 650
 
 form
   :text-align center
+  :margin 10px 0
   +sunken
 
 label
@@ -228,3 +233,7 @@ label
 
 #new_media_collection
   :margin-top 10px
+
+.delete_button
+  :float right
+  +clickable

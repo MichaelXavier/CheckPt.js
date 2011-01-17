@@ -9,20 +9,27 @@ window.MediaCollectionView = Backbone.View.extend({
 		this.model.view = this;
 		var items = this.model.get('items');
 		items.view = this;
-		var view_el = this.el;// for passing into the forEach scope
+		var self = this;// for passing into the forEach scope
     items.forEach(function(media_item) {
-      new MediaItemView({model: media_item}).
-				render(view_el.children('.media_items'));
+      self.add(media_item);
     });
     $(container).append(this.el);
 		this.bind('change', this.update_progress_bar);
 
     var current_media_collection = this.el;
     this.el.find('.add_item:first').click(function() {
-      new NewMediaItemView().render(current_media_collection);
+      new NewMediaItemView({collection: this.model}).render(current_media_collection);
     });
 
+    this.display_icons();
+    this.bind_delete();
+
     return this;
+  },
+
+  add: function(media_item) {
+    new MediaItemView({model: media_item}).
+      render(this.el.children('.media_items'));
   },
 
   className: 'media_collection',
@@ -46,6 +53,27 @@ window.MediaCollectionView = Backbone.View.extend({
 
     this.progress_bar.progressbar('value', progress);
 	},
+
+  //TODO: figure out how to have private methods local to the context of this model
+  //TODO: refactor this
+  display_icons: function() {
+    var opts = Icons.x;
+    this.el.find('.x_icon:empty').each(function() {
+      Raphael(this, opts[0], opts[1]).path(opts[2]).attr(opts[3]);
+    });
+  },
+
+  bind_delete: function() {
+    //To smuggle the model into the closure, FIXME: i think call can preven
+    //this nonsense
+    var model = this.model, el = this.el;
+    this.el.find('.delete_button').click(function() {
+      model.destroy();
+      //Looks like delete doesn't conform to backbone's standard with just a
+      //200. Just act like it succeeded for now
+      el.remove();
+    });
+  },
 
   progress: function() {return this.model.progress() * 100;}
 });

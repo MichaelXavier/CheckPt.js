@@ -57,12 +57,12 @@ window.MediaItemView = Backbone.View.extend({
   //TODO: refactor this
   display_icons: function() {
     var opts = Icons.check;
-    this.el.find('.check_icon').each(function() { 
-      Raphael(this, opts[0], opts[1]).path(opts[2]).attr(opts[3]); 
+    this.el.find('.check_icon').each(function() {
+      Raphael(this, opts[0], opts[1]).path(opts[2]).attr(opts[3]);
     });
     opts = Icons.x;
     this.el.find('.x_icon').each(function() {
-      Raphael(this, opts[0], opts[1]).path(opts[2]).attr(opts[3]); 
+      Raphael(this, opts[0], opts[1]).path(opts[2]).attr(opts[3]);
     });
   },
 
