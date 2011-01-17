@@ -93,6 +93,17 @@ app.put('/media_collections/:id', function(req, res){
   });
 });
 
+// Delete a MediaCollection
+app.delete('/media_collections/:id', function(req, res){
+  db.remove(MediaCollection.bucket,  req.params.id, function(err) {
+    if (err) {
+      res.send('EXPLOSIONS! ' + err, 500);
+    } else {
+      res.send(200);
+    }
+  });
+});
+
 //FIXME: for debugging purposes
 app.get('/debug/delete_all', function(req, res) {
   db.keys(MediaCollection.bucket, function(err, keys) {
