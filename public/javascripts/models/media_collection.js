@@ -37,8 +37,8 @@ window.MediaCollection = Backbone.Model.extend({
 
   //FIXME: why am i using getters everywhere?
   add: function(item) {
-    debuggger;
     this.get('items').add(item);
+    this.trigger('change');
     if (this.view) this.view.add(item);
   },
 
@@ -56,7 +56,6 @@ window.MediaCollection = Backbone.Model.extend({
         },
 
         error: function(model, resp) {
-          //debugger;//MXDEBUG
           console.log("Failed to save media collection" + resp);//TODO: UI
         }
       });

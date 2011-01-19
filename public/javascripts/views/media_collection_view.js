@@ -15,9 +15,10 @@ window.MediaCollectionView = Backbone.View.extend({
     });
     $(container).append(this.el);
 
-    var current_media_collection = this.el;
+    var current_media_collection = this.el,
+        model = this.model;
     this.el.find('.add_item:first').click(function() {
-      new NewMediaItemView({collection: this.model}).render(current_media_collection);
+      new NewMediaItemView({collection: model}).render(current_media_collection);
     });
 
     this.bind_events();

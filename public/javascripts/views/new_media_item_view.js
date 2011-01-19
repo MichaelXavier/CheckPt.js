@@ -1,10 +1,11 @@
 window.NewMediaItemView = Backbone.View.extend({
   render: function(container) {
     this.el = $(this.template());
-    this.el.submit(function(event) {
-      var mi = new MediaItem(serializeForm($(event.target)));
-      this.collection.add(mi);
-      event.preventDefault();//FIXME: redundancy makes me sad, also doesn't work
+    var collection = this.collection;
+    this.el.submit(function() {
+      var mi = new MediaItem(serializeForm($(this)))
+      collection.add(mi);
+      $(this).remove(); //The form is no longer needed
       return false;
     });
 

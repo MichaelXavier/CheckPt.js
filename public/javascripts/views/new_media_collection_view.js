@@ -12,6 +12,7 @@ window.NewMediaCollectionView = Backbone.View.extend({
         // Add a media collection to the app, which should save
         var mc = App.collection.create(serializeForm($(event.target)));
         new MediaCollectionView({model: mc}).render($('#app'));
+        $(this).remove(); //The form is no longer needed
         return false;
       });
       $('#new_media_collection').html(rendered_form);
