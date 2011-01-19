@@ -5,10 +5,9 @@ window.MediaCollection = Backbone.Model.extend({
   //TODO: if you dynamically set the items attr, bind probably won't work
 
   initialize: function(attrs) {//FIXME: not positive 1st arg is right...
+    if (!this.attributes.items) this.attributes.items = new MediaItemCollection();
     var media_collection = this;
-    //FIXME: fairly certain this doesn't propagate down to the model without using set()
-    if (!attrs.items) attrs.items = new MediaItemCollection();
-    attrs.items.bind('change', function() {
+    this.attributes.items.bind('change', function() {
       media_collection.trigger('change');
     });
     this.bind_events();

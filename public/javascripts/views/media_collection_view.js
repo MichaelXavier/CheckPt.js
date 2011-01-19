@@ -67,7 +67,7 @@ window.MediaCollectionView = Backbone.View.extend({
     //To smuggle the model into the closure, FIXME: i think call can preven
     //this nonsense
     var model = this.model, el = this.el;
-    this.el.find('.delete_button').click(function() {
+    this.el.find('.ribbon .delete_button').click(function() {
       model.destroy();
       //Looks like delete doesn't conform to backbone's standard with just a
       //200. Just act like it succeeded for now
