@@ -14,15 +14,14 @@ window.MediaCollectionView = Backbone.View.extend({
       self.add(media_item);
     });
     $(container).append(this.el);
-		this.bind('change', this.update_progress_bar);
 
     var current_media_collection = this.el;
     this.el.find('.add_item:first').click(function() {
       new NewMediaItemView({collection: this.model}).render(current_media_collection);
     });
 
+    this.bind_events();
     this.display_icons();
-    this.bind_delete();
 
     return this;
   },
@@ -61,6 +60,11 @@ window.MediaCollectionView = Backbone.View.extend({
     this.el.find('.x_icon:empty').each(function() {
       Raphael(this, opts[0], opts[1]).path(opts[2]).attr(opts[3]);
     });
+  },
+
+  bind_events: function() {
+		this.bind('change', this.update_progress_bar);
+    this.bind_delete();
   },
 
   bind_delete: function() {

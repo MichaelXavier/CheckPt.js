@@ -67,7 +67,16 @@ window.MediaItemView = Backbone.View.extend({
   },
 
   bind_events: function() {
-    this.bind('complete', this.complete);
-    this.bind('incomplete', this.incomplete);
+    this.bind_delete();
+  },
+
+  bind_delete: function() {
+    var model = this.model, el = this.el;
+    this.el.find('.delete_button').click(function() {
+      model.collection.remove(model);
+      //Looks like delete doesn't conform to backbone's standard with just a
+      //200. Just act like it succeeded for now
+      el.remove();
+    });
   }
 });
