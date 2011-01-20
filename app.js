@@ -9,8 +9,6 @@ var express         = require('express'),
 // Configuration
 
 app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
   app.use(express.bodyDecoder());
   app.use(express.methodOverride());
   app.use(express.compiler({ src: __dirname + '/public', enable: ['sass'] }));
@@ -21,17 +19,20 @@ app.configure(function(){
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  app.set('root', 'development.html');
 });
 
 app.configure('production', function(){
   app.use(express.errorHandler());
+  app.set('root', 'index.html');
 });
 
 // Routes
 
 // Index (loading page
+//TODO: see if theres a faster way to do this
 app.get('/', function(req, res){
-  res.render('index');
+  res.redirect(app.set('root'));
 });
 
 // Get all media collections
@@ -41,14 +42,9 @@ app.get('/checkpt', function(req, res){
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
-      var ret = results.map(function(r) { 
+      res.send(results.map(function(r) {
         // Merge key in as the ID if it isn't already
-        if (!r.data.id) r.data.id = r.meta.key; 
-        return r.data;
-      });//DEBUG
-      res.send(results.map(function(r) { 
-        // Merge key in as the ID if it isn't already
-        if (!r.data.id) r.data.id = r.meta.key; 
+        if (!r.data.id) r.data.id = r.meta.key;
         return r.data;
       }));
     }
@@ -56,8 +52,6 @@ app.get('/checkpt', function(req, res){
 });
 
 // Get a single MediaCollection
-//CURRENTLY 1724 req/sec with -c 10 -k -n 1000
-//Unfortunately, riak-js likes to be clever and parses this json, only for it to get serialized again
 app.get('/media_collections/:id', function(req, res){
   db.get(MediaCollection.bucket, req.params.id, function(err, val) {
     if (err) {
@@ -116,5 +110,5 @@ app.get('/debug/delete_all', function(req, res) {
 
 if (!module.parent) {
   app.listen(argv.p || 3000);
-  console.log("Express server listening on port %d", app.address().port)
+  console.log("CheckPt server listening on port %d", app.address().port)
 }

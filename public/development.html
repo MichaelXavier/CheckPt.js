@@ -1,0 +1,83 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <title>CheckPt</title>
+    <link rel="stylesheet" href="/stylesheets/style.css"/>
+    <script type="text/javascript" src="javascripts/LAB.min.js"></script>
+    <script type="text/javascript"> 
+      var randy = '?' + Date.now();
+      $LAB.script('javascripts/jquery.min.js').wait()
+          .script('javascripts/jquery-ui.custom.min.js').wait()
+          .script('javascripts/raphael.min.js')
+          .script('javascripts/underscore.min.js').wait()
+          .script('javascripts/backbone.min.js').wait()
+          .script('javascripts/views/checkpt_view.js' + randy)
+          .script('javascripts/views/media_collection_view.js' + randy)
+          .script('javascripts/views/new_media_collection_view.js' + randy)
+          .script('javascripts/views/new_media_item_view.js' + randy)
+          .script('javascripts/views/media_item_view.js' + randy)
+          .script('javascripts/models/media_item.js' + randy)
+          .script('javascripts/models/media_item_collection.js' + randy)
+          .script('javascripts/models/media_collection.js' + randy)
+          .script('javascripts/models/checkpt.js' + randy).wait()
+          .script('javascripts/application.js' + randy);
+    </script>
+  </head>
+  <body>
+    <div id="header">
+      <h1>CheckPt</h1>
+      <div class="emphasis">Consume Media Responsibly</div>
+    </div>
+    <div id="content">
+      <script type="text/template" id="checkpt_template">
+        <div id="new_media_collection">
+        </div>
+        <div id="media_collections">
+        </div>
+    </script>
+    <script type="text/template" id="media_collection_template">
+      <div class="media_collection">
+        <div class="ribbon ui-progressbar">
+          <h2><%= name %></h2>
+          <span class="delete_button x_icon"></span>
+        </div>
+        <div class="triangle-l"></div>
+        <div class="triangle-r"></div>
+        <ol class="media_items">
+        </ol>
+        <div class="new_media_item">
+        </div>
+        <span class="add_item button">
+          <h3>Add Item</h3>
+        </span>
+      </div>
+    </script>
+    <script type="text/template" id="media_item_template">
+      <li class="media_item<%= completed ? ' completed_media_item' : '' %>">
+        <span class="delete_button x_icon"></span>
+        <h3><%= name %></h3>
+      </li>
+    </script>
+    <script type="text/template" id="new_media_collection_template">
+      <span class="button">
+        <h3>Add Media Collection</h3>
+      </span>
+    </script>
+    <script type="text/template" id="new_media_collection_form_template">
+      <form>
+        <label for="name">What's it called? </label>
+        <input name="name" />
+      </form>
+    </script>
+    <script type="text/template" id="new_media_item_form_template">
+      <form>
+        <label for="name">What's it called? </label>
+        <input name="name" />
+      </form>
+    </script>
+    <div class="ribbon_background">
+    <div id="app">Loading...</div>
+    </div>
+    </div>
+  </body>
+</html>
