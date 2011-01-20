@@ -1,9 +1,6 @@
 var express         = require('express'),
     app             = module.exports = express.createServer(),
     argv            = require('optimist').argv,
-    inspect         = require('sys').inspect,
-    MediaCollection = require('./lib/media_collection'),
-    CheckPt         = require('./lib/checkpt'),
     db              = require('riak-js').getClient();//FIXME
 
 // Configuration
@@ -20,11 +17,13 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   app.set('root', 'development.html');
+  app.set('bucket', 'media_collections_development');
 });
 
 app.configure('production', function(){
   app.use(express.errorHandler());
   app.set('root', 'index.html');
+  app.set('bucket', 'media_collections');
 });
 
 // Routes
@@ -38,7 +37,7 @@ app.get('/', function(req, res){
 // Get all media collections
 //TODO: catch parse errors. is there a way to validate json?
 app.get('/checkpt', function(req, res){
-  db.getAll(MediaCollection.bucket, function(err, results) {
+  db.getAll(app.set('bucket'), function(err, results) {
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
@@ -53,7 +52,7 @@ app.get('/checkpt', function(req, res){
 
 // Get a single MediaCollection
 app.get('/media_collections/:id', function(req, res){
-  db.get(MediaCollection.bucket, req.params.id, function(err, val) {
+  db.get(app.set('bucket'), req.params.id, function(err, val) {
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
@@ -66,7 +65,7 @@ app.get('/media_collections/:id', function(req, res){
 //FIXME: make sure ui sends it in data so random post vars don't get included in the serialized model
 //FIXME: this will be an ajax response with the key as the body, handle accordingly in the UI
 app.post('/media_collections', function(req, res){
-  db.save(MediaCollection.bucket, null, req.body, function(err, record, meta) {
+  db.save(app.set('bucket'), null, req.body, function(err, record, meta) {
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
@@ -78,7 +77,7 @@ app.post('/media_collections', function(req, res){
 // Update a MediaCollection
 //FIXME: for the time being this will just overwrite the key
 app.put('/media_collections/:id', function(req, res){
-  db.save(MediaCollection.bucket, req.params.id, JSON.stringify(req.body), function(err, result) {
+  db.save(app.set('bucket'), req.params.id, JSON.stringify(req.body), function(err, result) {
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
@@ -89,7 +88,7 @@ app.put('/media_collections/:id', function(req, res){
 
 // Delete a MediaCollection
 app.delete('/media_collections/:id', function(req, res){
-  db.remove(MediaCollection.bucket,  req.params.id, function(err) {
+  db.remove(app.set('bucket'),  req.params.id, function(err) {
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
@@ -100,7 +99,7 @@ app.delete('/media_collections/:id', function(req, res){
 
 //FIXME: for debugging purposes
 app.get('/debug/delete_all', function(req, res) {
-  db.keys(MediaCollection.bucket, function(err, keys) {
+  db.keys(app.set('bucket'), function(err, keys) {
     keys.forEach(function(k) {db.remove(MediaCollection.bucket, k)});
     res.send(200);
   });
