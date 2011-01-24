@@ -1,16 +1,16 @@
 !bg            = #323337
 !highlight     = #62626B
 !medium        = #1E1F21
-!medium_shadow = rgba(20, 21, 23, 0.55)
+!medium_shadow = rgba(20, 21, 23, 0.85)
 !light         = #575B61
 !light2        = #494D52
 !dark          = #101112
 !text          = #FFFFFF
 !complete      = #1A4C58
-!top           = 100
+!font          = 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif
 
 body
-  :font 14px/1.5 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif
+  :font 14px/1.5 !font
   :color !text
   :background-color !bg
 
@@ -30,10 +30,6 @@ body
 +clickable
   :cursor pointer
 
-+foreground
-  :position relative
-  :z-index !top
-
 +rounded
   =border-radius 5px
 
@@ -50,14 +46,12 @@ body
   :vertical-align baseline
   +progress
 
-.widget
-  :background-color !light
-  =border-radius 5px
-  :padding 0
-  :height 50px
-  :width 650px
-  =box-shadow 5px 5px 6px !medium
-  +foreground
++shadowed
+  =box-shadow 3px 3px 4px !medium_shadow
+
+#app
+  :padding 10px 0
+  +shadowed
 
 #header
   :background-color !medium
@@ -67,6 +61,7 @@ body
   :font-size 150%
   :width 600px
   +raised
+  +shadowed
 
 #header > h1
   :margin 0
@@ -76,7 +71,7 @@ body
   :color !highlight
 
 #content
-  :padding 50px
+  :padding 25px
 
 .ui-progressbar-value
  +collection_bar
@@ -106,7 +101,6 @@ ribbon_width: 650
   :margin 0px auto
   :width {ribbon_width}px
   :background-color !medium
-  :min-height 500px
   +raised
 
 .ribbon
@@ -117,9 +111,10 @@ ribbon_width: 650
   :left -15px
   :top 30px
   :float left
-  =box-shadow 0px 0px 4px rgba(0,0,0,0.55)
+  //=box-shadow 0px 0px 4px rgba(0,0,0,0.55)
   :z-index 100
   :text-align center
+  +shadowed
 
 .ribbon h2
   :font-size 30px
@@ -181,6 +176,13 @@ form
   :text-align center
   :margin 10px 0
   +sunken
+
+input
+  :width 150px
+  :font-size 20px
+  :background-color white
+  :font !font
+  :color !dark
 
 label
   :font-size 150%
