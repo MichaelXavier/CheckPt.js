@@ -49,19 +49,26 @@ body
 +shadowed
   =box-shadow 3px 3px 4px !medium_shadow
 
++widget
+  :background-color !medium
+  :margin 10px auto
+  :padding 25px
+  :width 600px
+  +shadowed
+  +raised
+
 #app
   :padding 10px 0
   +shadowed
 
+#instructions
+  :font-style italic
+  +widget
+
 #header
-  :background-color !medium
-  :margin auto
-  :padding 25px
   :height 100px
   :font-size 150%
-  :width 600px
-  +raised
-  +shadowed
+  +widget
 
 #header > h1
   :margin 0
@@ -69,9 +76,6 @@ body
 .emphasis
   :font-style italic
   :color !highlight
-
-#content
-  :padding 25px
 
 .ui-progressbar-value
  +collection_bar
@@ -168,6 +172,10 @@ ribbon_width: 650
 
 #icons
   :display none
+
+.info_icon
+  :float left
+  width
 
 .item_flags h4
   :text-align right
