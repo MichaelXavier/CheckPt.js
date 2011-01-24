@@ -14,7 +14,7 @@ window.MediaCollection = Backbone.Model.extend({
   },
 
   validate: function(attrs) {
-    if (!this.get('name')) return "Name required";
+    if (!this.attributes.name) return "Name required";
   },
 
   progress: function() {
@@ -28,16 +28,15 @@ window.MediaCollection = Backbone.Model.extend({
   },
 
   remaining_list: function() {
-    return this.get('items').filter(function(i) {return !i.get('completed');});
+    return this.attributes.items.filter(function(i) {return !i.attributes.completed;});
   },
 
   completed_list: function() {
-    return this.get('items').filter(function(i) {return i.get('completed');});
+    return this.attributes.items.filter(function(i) {return i.attributes.completed;});
   },
 
-  //FIXME: why am i using getters everywhere?
   add: function(item) {
-    this.get('items').add(item);
+    this.attributes.items.add(item);
     this.trigger('change');
     if (this.view) this.view.add(item);
   },
