@@ -7,7 +7,12 @@ $(function() {
     App.render();
   });
 
-  App.collection.fetch();
+  App.collection.fetch({
+    error: function() {
+      App.error("Could not load CheckPt data. Please try again later.");
+      App.el.html("");
+    }
+  });
 
   //Icons
   //TODO: figure out to color icons with CSS
