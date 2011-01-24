@@ -15,7 +15,6 @@ $(function() {
   });
 
   //Icons
-  //TODO: figure out to color icons with CSS
   window.Icons = {
     check: [32, 32, 'm 2.379,14.729 4.829,-4.83 5.75,5.749 10.919,-10.915 4.83,4.828 -15.749,15.747',
             {fill: "#FFFFFF", stroke:'none'}],
@@ -37,12 +36,6 @@ function serializeForm($form) {
   }, {});
 }
 
-//FIXME: bind live on when these elements enter the page?
 function renderIcon(element, opts) {
   Raphael(element, opts[0], opts[1]).path(opts[2]).attr(opts[3]);
-}
-
-function debug_renderIcons() {
-  $('.check_icon').each(function() { renderIcon(this, Icons.check); });
-  $('.x_icon').each(function() { renderIcon(this, Icons.x); });
 }
