@@ -17,5 +17,9 @@ window.CheckPtView = Backbone.View.extend({
 
   el: $('#app'),
 
-  template: _.template($('#checkpt_template').html())
+  template: _.template($('#checkpt_template').html()),
+
+  error: function(message) {
+    new ErrorView().render(message);
+  }
 });

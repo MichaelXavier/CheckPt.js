@@ -4,7 +4,7 @@
     <title>CheckPt</title>
     <link rel="stylesheet" href="/stylesheets/style.css"/>
     <script type="text/javascript" src="javascripts/LAB.min.js"></script>
-    <script type="text/javascript"> 
+    <script type="text/javascript">
       var randy = '?' + Date.now();
       $LAB.script('javascripts/jquery.min.js').wait()
           .script('javascripts/jquery-ui.custom.min.js').wait()
@@ -12,6 +12,7 @@
           .script('javascripts/underscore.min.js').wait()
           .script('javascripts/backbone.min.js').wait()
           .script('javascripts/views/checkpt_view.js' + randy)
+          .script('javascripts/views/error_view.js' + randy)
           .script('javascripts/views/media_collection_view.js' + randy)
           .script('javascripts/views/new_media_collection_view.js' + randy)
           .script('javascripts/views/new_media_item_view.js' + randy)
@@ -29,7 +30,7 @@
       <div class="emphasis">Consume Media Responsibly</div>
     </div>
     <div id="instructions">
-      <span class="info_icon"></span> 
+      <span class="info_icon"></span>
       <div>
         Media collections are groups of episode content (TV episodes, chapters, etc).
         <br />Double click an item to mark it as completed.
@@ -39,6 +40,13 @@
     </div>
     <div id="content">
     <script type="text/template" id="error_template">
+      <div class="error">
+        <span class="delete_button x_icon"></span>
+        <span class="error_icon"></span>
+        <div class="error_message">
+          <%= message %>
+        </div>
+      </div>
     </script>
     <script type="text/template" id="checkpt_template">
       <div id="new_media_collection">
