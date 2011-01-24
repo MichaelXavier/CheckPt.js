@@ -18,7 +18,7 @@ window.NewMediaCollectionView = Backbone.View.extend({
         return false;
       });
       $('#new_media_collection').html(rendered_form);
-      $(rendered_form).find(':input:first').focus();
+      $(rendered_form).find(':input:first').focus().val("");
     });
   },
 

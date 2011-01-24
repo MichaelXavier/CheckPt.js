@@ -10,7 +10,7 @@ window.NewMediaItemView = Backbone.View.extend({
     });
 
     $(container).find('.new_media_item:first').html(this.el);
-    $(this.el).find(':input:first').focus();
+    $(this.el).find(':input:first').focus().val("");
   },
 
   template: _.template($('#new_media_item_form_template').html())
