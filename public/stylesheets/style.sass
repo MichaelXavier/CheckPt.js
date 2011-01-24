@@ -1,18 +1,13 @@
-!bg         = #323337
-!highlight  = #62626B
-!medium     = #1E1F21
-!medium2    = #35373B
+!bg            = #323337
+!highlight     = #62626B
+!medium        = #1E1F21
 !medium_shadow = rgba(20, 21, 23, 0.55)
-!light      = #575B61
-!light2     = #494D52
-!dark       = #101112
-!text       = #FFFFFF
-!incomplete  = #2D581A
-!incomplete2 = #3B7322
-!complete    = #1A4C58
-!complete2   = #226373
-!top         = 100
-!middle      = -10
+!light         = #575B61
+!light2        = #494D52
+!dark          = #101112
+!text          = #FFFFFF
+!complete      = #1A4C58
+!top           = 100
 
 body
   :font 14px/1.5 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif
@@ -35,41 +30,12 @@ body
 +clickable
   :cursor pointer
 
-#header
-  :background-color !medium
-  :margin 0
-  :padding 25px
-  :height 100px
-  :font-size 150%
-  +raised
-
-#header > h1
-  :margin 0
-
-.emphasis
-  :font-style italic
-  :color !highlight
-
-#content
-  :padding 50px
-
 +foreground
   :position relative
   :z-index !top
 
 +rounded
   =border-radius 5px
-
-.widget
-  :background-color !light
-  =border-radius 5px
-  :padding 0
-  :height 50px
-  :width 650px
-  =box-shadow 5px 5px 6px !medium
-  +foreground
-
-.media_collection
 
 +progress
   :background-color !complete
@@ -83,49 +49,37 @@ body
   :height 50px
   :vertical-align baseline
   +progress
-  //FIXME: background color iffy
 
-.collection_title
-  :background !medium
-  :background -moz-linear-gradient(0% 100% 90deg, !medium, !medium2)
-  :background -webkit-gradient(linear, 0% 0%, 0% 100%, from(!medium2), to(!medium))
-  :color !text
-  :width 155px
-  :float left
-  =box-shadow inset 0 0 3px 1px !medium_shadow
-  +rounded
-  +collection_bar
+.widget
+  :background-color !light
+  =border-radius 5px
+  :padding 0
+  :height 50px
+  :width 650px
+  =box-shadow 5px 5px 6px !medium
+  +foreground
 
-.existing_media_items
-  :margin-left 20px
+#header
+  :background-color !medium
+  :margin auto
+  :padding 25px
+  :height 100px
+  :font-size 150%
+  :width 600px
+  +raised
 
-.ui-progressbar
+#header > h1
+  :margin 0
+
+.emphasis
+  :font-style italic
+  :color !highlight
+
+#content
+  :padding 50px
 
 .ui-progressbar-value
  +collection_bar
-
-.progress_container
-  :margin-left 150px
-  :width 500px
-  :height 100%
-  :vertical-align baseline
-
-.collection_progress
-  :display inline
-  :width 100%
-
-.collection_progress_incomplete
-  :background !incomplete
-  :background -moz-linear-gradient(0% 100% 90deg, !incomplete, !incomplete2)
-  :background -webkit-gradient(linear, 0% 0%, 0% 100%, from(!incomplete2), to(!incomplete))
-
-.collection_progress_complete
-  :background-color !complete
-  :background -moz-linear-gradient(0% 100% 90deg, !complete, !complete2)
-  :background -webkit-gradient(linear, 0% 0%, 0% 100%, from(!complete2), to(!complete))
-
-.clear
-  :clear both
 
 .media_items
   :padding-top 10px
