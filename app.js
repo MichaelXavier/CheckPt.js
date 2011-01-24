@@ -1,7 +1,8 @@
 var express         = require('express'),
     app             = module.exports = express.createServer(),
     argv            = require('optimist').argv,
-    db              = require('riak-js').getClient();//FIXME
+    backend         = require('./lib/backends').riak;
+
 
 // Configuration
 
@@ -37,7 +38,7 @@ app.get('/', function(req, res){
 // Get all media collections
 //TODO: catch parse errors. is there a way to validate json?
 app.get('/checkpt', function(req, res){
-  db.getAll(app.set('bucket'), function(err, results) {
+  backend.getAll(app.set('bucket'), function(err, results) {
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
@@ -52,7 +53,7 @@ app.get('/checkpt', function(req, res){
 
 // Get a single MediaCollection
 app.get('/media_collections/:id', function(req, res){
-  db.get(app.set('bucket'), req.params.id, function(err, val) {
+  backend.get(app.set('bucket'), req.params.id, function(err, val) {
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
@@ -65,11 +66,11 @@ app.get('/media_collections/:id', function(req, res){
 //FIXME: make sure ui sends it in data so random post vars don't get included in the serialized model
 //FIXME: this will be an ajax response with the key as the body, handle accordingly in the UI
 app.post('/media_collections', function(req, res){
-  db.save(app.set('bucket'), null, req.body, function(err, record, meta) {
+  backend.create(app.set('bucket'), req.body, function(err, key) {
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
-      res.send(meta.key);// return it in the body, assign it to the model in the view
+      res.send(key);// return it in the body, assign it to the model in the view
     }
   });
 });
@@ -77,7 +78,7 @@ app.post('/media_collections', function(req, res){
 // Update a MediaCollection
 //FIXME: for the time being this will just overwrite the key
 app.put('/media_collections/:id', function(req, res){
-  db.save(app.set('bucket'), req.params.id, JSON.stringify(req.body), function(err, result) {
+  backend.update(app.set('bucket'), req.params.id, JSON.stringify(req.body), function(err) {
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
@@ -88,7 +89,7 @@ app.put('/media_collections/:id', function(req, res){
 
 // Delete a MediaCollection
 app.delete('/media_collections/:id', function(req, res){
-  db.remove(app.set('bucket'),  req.params.id, function(err) {
+  backend.delete(app.set('bucket'),  req.params.id, function(err) {
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
@@ -99,9 +100,12 @@ app.delete('/media_collections/:id', function(req, res){
 
 //FIXME: for debugging purposes
 app.get('/debug/delete_all', function(req, res) {
-  db.keys(app.set('bucket'), function(err, keys) {
-    keys.forEach(function(k) {db.remove(MediaCollection.bucket, k)});
-    res.send(200);
+  backend.truncate(app.set('bucket'), function(err) {
+    if (err) {
+      res.send('EXPLOSIONS! ' + err, 500);
+    } else {
+      res.send(200);
+    }
   });
 });
 
