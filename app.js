@@ -42,11 +42,7 @@ app.get('/checkpt', function(req, res){
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
-      res.send(results.map(function(r) {
-        // Merge key in as the ID if it isn't already
-        if (!r.data.id) r.data.id = r.meta.key;
-        return r.data;
-      }));
+      res.send(results);
     }
   });
 });
