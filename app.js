@@ -1,7 +1,10 @@
 var express         = require('express'),
     app             = module.exports = express.createServer(),
     argv            = require('optimist').argv,
-    backend         = require('./lib/backends').riak;
+    fs              = require('fs'),
+    backends        = require('./lib/backends'),
+    inspect         = require('sys').inspect,//FOR DEBUGGING
+    backend         = require('./lib/backends').json;
 
 
 // Configuration
@@ -18,7 +21,10 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   app.set('root', 'development.html');
-  app.set('bucket', 'media_collections_development');
+  var dataset = JSON.parse(fs.readFileSync('db.json', 'utf8'));
+  app.set('bucket', new backends.JsonBucket(dataset));
+  // For riak
+  //app.set('bucket', 'media_collections_development');
 });
 
 app.configure('production', function(){
@@ -59,20 +65,17 @@ app.get('/media_collections/:id', function(req, res){
 })
 
 // Create a MediaCollection
-//FIXME: make sure ui sends it in data so random post vars don't get included in the serialized model
-//FIXME: this will be an ajax response with the key as the body, handle accordingly in the UI
 app.post('/media_collections', function(req, res){
   backend.create(app.set('bucket'), req.body, function(err, key) {
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
-      res.send(key);// return it in the body, assign it to the model in the view
+      res.send(key + '');// return it in the body as str, assign it to the model in the view
     }
   });
 });
 
 // Update a MediaCollection
-//FIXME: for the time being this will just overwrite the key
 app.put('/media_collections/:id', function(req, res){
   backend.update(app.set('bucket'), req.params.id, JSON.stringify(req.body), function(err) {
     if (err) {
