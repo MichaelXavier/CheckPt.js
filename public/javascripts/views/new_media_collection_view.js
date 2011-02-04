@@ -27,13 +27,8 @@ window.NewMediaCollectionView = Backbone.View.extend({
 
   //FIXME: this is wrong but sync is coming back as erroneous
   response_callback: function(model, response) {
-    if (response.status == 200) {
-      //Response body will be the DB key
-      //FIXME: for some reason if I don't do both, the record is still
-      //considered new
-      model.attributes.id = response.responseText;
-      model.id = response.responseText;
-      new MediaCollectionView({model: model}).render($('#app'));
-    }
+    model.attributes.id = response.id
+    model.id = response.id;
+    new MediaCollectionView({model: model}).render($('#app'));
   }
 });

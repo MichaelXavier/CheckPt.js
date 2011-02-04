@@ -22,7 +22,7 @@ app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   app.set('root', 'development.html');
   var dataset = JSON.parse(fs.readFileSync('db.json', 'utf8'));
-  app.set('bucket', new backends.JsonBucket(dataset));
+  app.set('bucket', new backends.JsonBucket(dataset, 'db.json'));
   // For riak
   //app.set('bucket', 'media_collections_development');
 });
@@ -70,18 +70,19 @@ app.post('/media_collections', function(req, res){
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
-      res.send(key + '');// return it in the body as str, assign it to the model in the view
+      req.body.id = key;
+      res.send(req.body);// return it in the body as str, assign it to the model in the view
     }
   });
 });
 
 // Update a MediaCollection
 app.put('/media_collections/:id', function(req, res){
-  backend.update(app.set('bucket'), req.params.id, JSON.stringify(req.body), function(err) {
+  backend.update(app.set('bucket'), req.params.id, req.body, function(err) {
     if (err) {
       res.send('EXPLOSIONS! ' + err, 500);
     } else {
-      res.send(200);
+      res.send(req.body);
     }
   });
 });
